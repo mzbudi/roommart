@@ -1,10 +1,11 @@
 import { useCartStore } from "../store/useCartStore";
+import { CartItem } from "../store/useCartStore";
 
 const CartPage = () => {
   const {
     cart,
     removeFromCart,
-    clearCart,
+    // clearCart,
     increaseQuantity,
     decreaseQuantity,
   } = useCartStore();
@@ -13,6 +14,22 @@ const CartPage = () => {
     (acc, item) => acc + item.price * item.quantity,
     0
   );
+
+  const generateWhatsAppLink = (cart: CartItem[], total: number) => {
+    const phoneNumber = "6287864563764"; // Ganti dengan nomor admin (awali dengan kode negara, contoh: 62 untuk Indonesia)
+    const message = cart
+      .map(
+        (item) =>
+          `- ${item.name} x ${item.quantity} = Rp ${(
+            item.price * item.quantity
+          ).toLocaleString()}`
+      )
+      .join("\n");
+
+    const fullMessage = `Halo Admin, saya ingin memesan:\n\n${message}\n\nTotal: Rp ${total.toLocaleString()}`;
+    const encodedMessage = encodeURIComponent(fullMessage);
+    return `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+  };
 
   return (
     <div className="p-6">
@@ -66,12 +83,16 @@ const CartPage = () => {
             <p className="text-lg font-semibold">
               Total Belanja: Rp {totalPrice.toLocaleString()}
             </p>
-            <button
-              onClick={clearCart}
-              className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-            >
-              Kosongkan Keranjang
-            </button>
+            {cart.length > 0 && (
+              <a
+                href={generateWhatsAppLink(cart, totalPrice)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 inline-block px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+              >
+                Pesan via WhatsApp
+              </a>
+            )}
           </div>
         </>
       )}

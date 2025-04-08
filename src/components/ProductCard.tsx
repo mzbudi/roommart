@@ -1,5 +1,6 @@
 import { useCartStore } from "../store/useCartStore";
 import { Product } from "../data/products";
+import images from "../assets/img/images";
 
 const ProductCard = ({ product }: { product: Product }) => {
   const addToCart = useCartStore((state) => state.addToCart);
@@ -7,7 +8,7 @@ const ProductCard = ({ product }: { product: Product }) => {
   return (
     <div className="bg-white rounded shadow p-4">
       <img
-        src={product.image}
+        src={images[product.image]}
         alt={product.name}
         className="w-full h-32 object-cover mb-2 rounded"
       />
