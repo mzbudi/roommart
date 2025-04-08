@@ -16,7 +16,7 @@ const CartPage = () => {
   );
 
   const generateWhatsAppLink = (cart: CartItem[], total: number) => {
-    const phoneNumber = "6287864563764"; // Ganti dengan nomor admin (awali dengan kode negara, contoh: 62 untuk Indonesia)
+    const phoneNumber = "6285156593494"; // Ganti dengan nomor admin (awali dengan kode negara, contoh: 62 untuk Indonesia)
     const message = cart
       .map(
         (item) =>
