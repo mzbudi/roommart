@@ -10,14 +10,16 @@ const HomePage = () => {
   );
 
   return (
-    <div className="p-6">
-      <input
-        type="text"
-        placeholder="Cari produk..."
-        className="w-full px-4 py-2 mb-6 border border-gray-300 rounded-lg"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
+    <div className="px-6 pb-6">
+      <div className="sticky top-16 z-40 bg-white pb-4">
+        <input
+          type="text"
+          placeholder="Cari produk..."
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         {filteredProducts.map((item) => (
           <ProductCard key={item.id} product={item} />
