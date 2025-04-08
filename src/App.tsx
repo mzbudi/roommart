@@ -10,12 +10,15 @@ const App = () => {
       {/* Navbar atau tombol ke keranjang */}
       <Navbar />
 
-      {/* Routes */}
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/cart" element={<CartPage />} />
-      </Routes>
+      {/* Main content */}
+      <main className="pt-20">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/cart" element={<CartPage />} />
+        </Routes>
+      </main>
 
+      {/* Toaster */}
       <Toaster position="top-left" reverseOrder={false} />
     </>
   );

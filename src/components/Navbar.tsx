@@ -10,7 +10,7 @@ const Navbar = () => {
   const isHome = location.pathname === "/";
 
   return (
-    <nav className="bg-white shadow px-6 py-4 flex justify-between items-center">
+    <nav className="fixed top-0 z-50 w-full bg-white shadow px-6 py-4 flex justify-between items-center">
       <div className="flex items-center gap-4">
         {!isHome && (
           <button
