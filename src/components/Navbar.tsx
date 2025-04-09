@@ -41,6 +41,7 @@ const Navbar = () => {
             d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 7h13l-1.5-7M7 13h10"
           />
         </svg>
+
         {totalItems > 0 && (
           <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
             {totalItems}

@@ -160,7 +160,7 @@ const CartPage = () => {
                 }}
                 className="mt-2 inline-block px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
               >
-                Pesan via WhatsApp
+                Pesan via WhatsApp 📱
               </button>
             )}
           </div>

@@ -34,7 +34,22 @@ const TutorialPage = () => {
           <span>Tekan tombol “Tambah ke Keranjang”</span>
         </li>
         <li className="flex items-start gap-3">
-          <span className="text-yellow-500 mt-1">🧺</span>
+          <span className=" mt-1">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 7h13l-1.5-7M7 13h10"
+              />
+            </svg>
+          </span>
           <span>Buka halaman keranjang untuk lihat belanjaan</span>
         </li>
         <li className="flex items-start gap-3">
