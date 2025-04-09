@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { useCartStore } from "../store/useCartStore";
 import { CartItem } from "../store/useCartStore";
+import Select from "react-select";
 
 const CartPage = () => {
   const {
@@ -10,12 +12,29 @@ const CartPage = () => {
     decreaseQuantity,
   } = useCartStore();
 
+  const [roomNumber, setRoomNumber] = useState("");
+  const [tower, setTower] = useState("");
+  const [touched, setTouched] = useState(false);
   const totalPrice = cart.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
   );
 
-  const generateWhatsAppLink = (cart: CartItem[], total: number) => {
+  const towerOptions = [
+    { value: "WEST01", label: "WEST01" },
+    { value: "WEST02", label: "WEST02" },
+    { value: "WEST03", label: "WEST03" },
+    { value: "WEST04", label: "WEST04" },
+    { value: "WEST05", label: "WEST05" },
+    { value: "WEST06", label: "WEST06" },
+  ];
+
+  const generateWhatsAppLink = (
+    cart: CartItem[],
+    total: number,
+    roomNumber: string,
+    tower: string
+  ) => {
     const phoneNumber = "6285156593494"; // Ganti dengan nomor admin (awali dengan kode negara, contoh: 62 untuk Indonesia)
     const message = cart
       .map(
@@ -26,7 +45,7 @@ const CartPage = () => {
       )
       .join("\n");
 
-    const fullMessage = `Halo Admin, saya ingin memesan:\n\n${message}\n\nTotal: Rp ${total.toLocaleString()}`;
+    const fullMessage = `Halo Admin, saya ingin memesan:\n\n${message}\n\nAlamat Kamar: ${tower} ${roomNumber} \nTotal Belanja: Rp ${total.toLocaleString()}`;
     const encodedMessage = encodeURIComponent(fullMessage);
     return `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
   };
@@ -79,19 +98,70 @@ const CartPage = () => {
             ))}
           </ul>
 
+          {/* Input Nomor Kamar */}
+          <div className="mt-6 grid grid-cols-2 gap-4">
+            {/* Dropdown Tower */}
+            <div>
+              <label className="block font-medium mb-1">Tower</label>
+              <Select
+                options={towerOptions}
+                value={towerOptions.find((opt) => opt.value === tower)}
+                onChange={(selected) => setTower(selected?.value || "")}
+                placeholder="Pilih Tower"
+                className="w-full"
+                menuPlacement="top" // 🔥 bikin dropdown ke atas
+              />
+              {touched && !tower && (
+                <p className="text-red-500 text-sm mt-1">
+                  Nama Tower wajib dipilih.
+                </p>
+              )}
+            </div>
+
+            {/* Input Nomor Kamar */}
+            <div>
+              <label className="block font-medium mb-1">Nomor Kamar</label>
+              <input
+                type="text"
+                value={roomNumber}
+                onChange={(e) => setRoomNumber(e.target.value)}
+                onBlur={() => setTouched(true)}
+                className="w-full border p-2 rounded"
+                placeholder="Contoh: 101"
+                required
+              />
+              {touched && !roomNumber && (
+                <p className="text-red-500 text-sm mt-1">
+                  Nomor kamar wajib diisi.
+                </p>
+              )}
+            </div>
+          </div>
+
           <div className="mt-6 text-right">
             <p className="text-lg font-semibold">
               Total Belanja: Rp {totalPrice.toLocaleString()}
             </p>
             {cart.length > 0 && (
-              <a
-                href={generateWhatsAppLink(cart, totalPrice)}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={() => {
+                  if (!roomNumber || !tower) {
+                    setTouched(true);
+                    return;
+                  }
+
+                  const waLink = generateWhatsAppLink(
+                    cart,
+                    totalPrice,
+                    roomNumber,
+                    tower
+                  );
+                  window.open(waLink, "_blank");
+                }}
                 className="mt-2 inline-block px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
               >
                 Pesan via WhatsApp
-              </a>
+              </button>
             )}
           </div>
         </>
