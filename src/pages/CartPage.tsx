@@ -15,6 +15,9 @@ const CartPage = () => {
   const [roomNumber, setRoomNumber] = useState("");
   const [tower, setTower] = useState("");
   const [touched, setTouched] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [note, setNote] = useState("");
+
   const totalPrice = cart.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
@@ -45,7 +48,9 @@ const CartPage = () => {
       )
       .join("\n");
 
-    const fullMessage = `Halo Admin, saya ingin memesan:\n\n${message}\n\nAlamat Kamar: ${tower} ${roomNumber} \nTotal Belanja: Rp ${total.toLocaleString()}`;
+    const fullMessage = `Halo Admin, saya ingin memesan:\n\n${message}\n\nAlamat Kamar: ${tower} ${roomNumber} \nTotal Belanja: Rp ${total.toLocaleString()}\n\nPembayaran: ${paymentMethod} ${
+      note ? `\nCatatan: ${note}` : ""
+    }`;
     const encodedMessage = encodeURIComponent(fullMessage);
     return `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
   };
@@ -126,7 +131,7 @@ const CartPage = () => {
                 value={roomNumber}
                 onChange={(e) => setRoomNumber(e.target.value)}
                 onBlur={() => setTouched(true)}
-                className="w-full border p-2 rounded"
+                className="w-full border border-gray-300 p-1.5 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Contoh: 101"
                 required
               />
@@ -138,6 +143,53 @@ const CartPage = () => {
             </div>
           </div>
 
+          {/* Payment Method */}
+          <div className="mt-4">
+            <label className="block font-medium mb-2">Metode Pembayaran</label>
+            <div className="flex gap-4">
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="payment"
+                  value="QRIS"
+                  checked={paymentMethod === "QRIS"}
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                />
+                QRIS
+              </label>
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="payment"
+                  value="COD"
+                  checked={paymentMethod === "COD"}
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                />
+                COD
+              </label>
+            </div>
+            {!paymentMethod && (
+              <p className="text-red-500 text-sm mt-1">
+                Silakan pilih metode pembayaran.
+              </p>
+            )}
+            {paymentMethod === "COD" && (
+              <div className="mt-4">
+                <label className="block font-medium mb-1">
+                  Catatan untuk Admin (Pecahan Uang)
+                </label>
+                <textarea
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                  className="w-full border p-2 rounded"
+                  rows={2}
+                  placeholder="Contoh: Saya bayar pakai Rp100.000"
+                />
+              </div>
+            )}
+          </div>
+
+          {/* Total dan WA Button */}
           <div className="mt-6 text-right">
             <p className="text-lg font-semibold">
               Total Belanja: Rp {totalPrice.toLocaleString()}
@@ -158,7 +210,7 @@ const CartPage = () => {
                   );
                   window.open(waLink, "_blank");
                 }}
-                className="mt-2 inline-block px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                className="mt-2 inline-block px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 w-full"
               >
                 Pesan via WhatsApp 📱
               </button>
