@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useCartStore } from "../store/useCartStore";
 import { CartItem } from "../store/useCartStore";
 import Select from "react-select";
+import waLogo from "../assets/img/WA_Logo.png";
 
 const CartPage = () => {
   const {
@@ -94,7 +95,7 @@ const CartPage = () => {
                   </button>
                   <button
                     onClick={() => removeFromCart(item.id)}
-                    className="ml-4 text-red-500 hover:underline text-sm"
+                    className="ml-4 px-2 py-1 border border-red-500 text-red-500 text-xs rounded hover:bg-red-500 hover:text-white transition"
                   >
                     Hapus
                   </button>
@@ -210,9 +211,10 @@ const CartPage = () => {
                   );
                   window.open(waLink, "_blank");
                 }}
-                className="mt-2 inline-block px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 w-full"
+                className="mt-2 inline-flex items-center justify-center gap-2 px-4 py-2 border border-green-600 bg-white text-black rounded hover:bg-green-50 transition w-full"
               >
-                Pesan via WhatsApp 📱
+                <img src={waLogo} alt="Chat WhatsApp" className="w-5 h-5" />
+                <span className="text-sm font-medium">Pesan via WhatsApp</span>
               </button>
             )}
           </div>
