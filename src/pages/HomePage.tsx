@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ProductCard from "../components/ProductCard";
 import { products } from "../data/products";
+import waLogo from "../assets/img/WA_Logo.png";
 
 const HomePage = () => {
   const [search, setSearch] = useState("");
@@ -52,6 +53,15 @@ const HomePage = () => {
           <ProductCard key={item.id} product={item} />
         ))}
       </div>
+
+      <a
+        href="https://wa.me/6285156593494" // Ganti dengan nomor WhatsApp kamu
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-4 right-4 bg-white border border-green-500 text-green-500 p-3 rounded-full shadow-lg hover:bg-green-100 transition"
+      >
+        <img src={waLogo} alt="Chat WhatsApp" className="w-6 h-6" />
+      </a>
     </div>
   );
 };
