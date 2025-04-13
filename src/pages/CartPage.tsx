@@ -17,6 +17,7 @@ const CartPage = () => {
   const [tower, setTower] = useState("");
   const [touched, setTouched] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [paymentError, setPaymentError] = useState(false);
   const [note, setNote] = useState("");
 
   const totalPrice = cart.reduce(
@@ -54,6 +55,12 @@ const CartPage = () => {
     }`;
     const encodedMessage = encodeURIComponent(fullMessage);
     return `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+  };
+
+  const cartValidation = () => {
+    if (!tower || !roomNumber) setTouched(true);
+    if (!paymentMethod) setPaymentError(true);
+    return;
   };
 
   return (
@@ -169,7 +176,7 @@ const CartPage = () => {
                 COD
               </label>
             </div>
-            {!paymentMethod && (
+            {!paymentMethod && paymentError && (
               <p className="text-red-500 text-sm mt-1">
                 Silakan pilih metode pembayaran.
               </p>
@@ -198,10 +205,9 @@ const CartPage = () => {
             {cart.length > 0 && (
               <button
                 onClick={() => {
-                  if (!roomNumber || !tower) {
-                    setTouched(true);
-                    return;
-                  }
+                  cartValidation();
+
+                  if (!tower || !paymentMethod || !roomNumber) return;
 
                   const waLink = generateWhatsAppLink(
                     cart,
